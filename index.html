@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bucin Buat Tara</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .scene {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 1s;
+      font-size: 2rem;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .scene.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    button {
+      position: absolute;
+      bottom: 40px;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff6f91;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+
+    button:hover {
+      background-color: #ff3e6c;
+    }
+
+    #ytPlayer {
+      width: 0;
+      height: 0;
+      border: none;
+    }
+
+    .heartRain {
+      position: absolute;
+      animation: fall 4s linear infinite;
+      color: #ff3366;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <iframe id="ytPlayer" src="https://www.youtube.com/embed/4ZJS7FwjwRw?autoplay=1&loop=1&playlist=4ZJS7FwjwRw" allow="autoplay"></iframe>
+
+  <div class="scene active" id="scene0">Tara, kamu tau nggak? Aku tuh bucin banget, tapi cuma buat kamu.</div>
+  <div class="scene" id="scene1">Kalau cinta itu lagu, kamu adalah nada yang paling indah.</div>
+  <div class="scene" id="scene2">Tiap detik tanpa kamu tuh kayak nonton sinetron tanpa ending.</div>
+  <div class="scene" id="scene3">Cintaku ke kamu tuh kayak DJ Stecu — makin lama makin pecah!</div>
+  <div class="scene" id="scene4">Tara, kamu bukan cuma alasan aku senyum, tapi juga alasanku hidup.</div>
+
+  <button onclick="nextScene()">Lanjut Bucin</button>
+
+  <script>
+    let current = 0;
+    const scenes = document.querySelectorAll('.scene');
+
+    function nextScene() {
+      scenes[current].classList.remove('active');
+      current = (current + 1) % scenes.length;
+      scenes[current].classList.add('active');
+      loveRain();
+    }
+
+    function loveRain() {
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heartRain';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 20 + 16) + 'px';
+        heart.innerText = '❤️';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 4000);
+      }
+    }
+
+    // play audio once user clicks something (fix for browser autoplay policy)
+    document.addEventListener("click", () => {
+      const yt = document.getElementById("ytPlayer");
+      yt.src += ""; // re-trigger iframe load
+    }, { once: true });
+  </script>
+</body>
+</html>
